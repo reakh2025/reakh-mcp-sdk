@@ -10,10 +10,9 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
 
+import jakarta.servlet.http.HttpServletRequest;
 import okhttp3.Headers;
 
 public class RagUtils {

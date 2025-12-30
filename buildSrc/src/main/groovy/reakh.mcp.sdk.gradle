@@ -19,7 +19,6 @@ try (FileInputStream fis = new FileInputStream(new File(rootDir, "gradle.propert
 }
 
 ext {
-    SPRING_VERSION = globalConfig.getProperty("reakh.mcp.sdk.lib.spring.version")
     JACKSON_VERSION = globalConfig.getProperty("reakh.mcp.sdk.lib.jackson.version")
     SLF4J_VERSION = globalConfig.getProperty("reakh.mcp.sdk.lib.slf4j.version")
 }
@@ -38,7 +37,7 @@ dependencies {
 
 group = 'ai.reakh.mcp'
 version = globalConfig.getProperty("reakh.mcp.sdk.project.version")
-java.sourceCompatibility = JavaVersion.VERSION_1_8
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 java {
     withSourcesJar()

@@ -6,10 +6,6 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -18,6 +14,9 @@ import com.fasterxml.uuid.Generators;
 import ai.reakh.mcp.sdk.UserInfo;
 import ai.reakh.mcp.sdk.UserMcpSdk;
 import ai.reakh.mcp.sdk.openapi.OpenApiSigner;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * @author bucketli 2021/10/11 19:29

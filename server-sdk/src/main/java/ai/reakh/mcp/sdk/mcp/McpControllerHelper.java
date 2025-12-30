@@ -1,5 +1,20 @@
 package ai.reakh.mcp.sdk.mcp;
 
+import static ai.reakh.mcp.sdk.constants.McpConstants.*;
+
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.util.*;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import ai.reakh.mcp.sdk.UserMcpSdk;
 import ai.reakh.mcp.sdk.annotation.McpApiProvider;
 import ai.reakh.mcp.sdk.annotation.McpTool;
@@ -11,23 +26,9 @@ import ai.reakh.mcp.sdk.mcp.model.response.*;
 import ai.reakh.mcp.sdk.openapi.OpenApiHttpClient;
 import ai.reakh.mcp.sdk.utils.JacksonHelper;
 import ai.reakh.mcp.sdk.utils.Json;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-import java.util.*;
-
-import static ai.reakh.mcp.sdk.constants.McpConstants.*;
 
 @Component
 @Slf4j
@@ -35,19 +36,19 @@ public class McpControllerHelper {
 
     private static final Integer OPEN_API_TIME_OUT = 120;
 
-    private Map<String, String> toolApi = new HashMap<>();
+    private Map<String, String>  toolApi           = new HashMap<>();
 
-    private ToolsListResult toolsListResult = new ToolsListResult(Collections.emptyList(), null);
+    private ToolsListResult      toolsListResult   = new ToolsListResult(Collections.emptyList(), null);
 
-    private InitializeResult initResult;
+    private InitializeResult     initResult;
 
-    private Map<String, Object> pongResult;
-
-    @Resource
-    private ApplicationContext context;
+    private Map<String, Object>  pongResult;
 
     @Resource
-    private UserMcpSdk userMcpSdk;
+    private ApplicationContext   context;
+
+    @Resource
+    private UserMcpSdk           userMcpSdk;
 
     public void initTools() {
         log.info("[MCP] Tools loading...");
@@ -158,16 +159,16 @@ public class McpControllerHelper {
             }
 
             Parameter input = findRequestBodyParam(method);
-//            if (input == null) {
-//                log.warn("[MCP] Skip method without @RequestBody parameter: {}.{}", clazz.getSimpleName(), method.getName());
-//                continue;
-//            }
-//
-//            if (isListLike(input)) {
-//                log.warn("[MCP] Skip method with list/array @RequestBody (not supported by MCP): {}.{} param={}", clazz.getSimpleName(), method.getName(), input.getType()
-//                        .getName());
-//                continue;
-//            }
+            //            if (input == null) {
+            //                log.warn("[MCP] Skip method without @RequestBody parameter: {}.{}", clazz.getSimpleName(), method.getName());
+            //                continue;
+            //            }
+            //
+            //            if (isListLike(input)) {
+            //                log.warn("[MCP] Skip method with list/array @RequestBody (not supported by MCP): {}.{} param={}", clazz.getSimpleName(), method.getName(), input.getType()
+            //                        .getName());
+            //                continue;
+            //            }
 
             String toolName = mcpTool.name();
             if (StringUtils.isBlank(toolName)) {
@@ -176,9 +177,9 @@ public class McpControllerHelper {
 
             if (api.containsKey(toolName)) {
                 String error = String.format("[MCP] Duplicate tool name detected: '%s'. " //
-                        + "Class: %s. MCP tool names must be unique. " //
-                        + "Please provide a unique 'name' attribute in the @McpTool annotation " //
-                        + "or rename the conflicting method.", toolName, clazz.getName());
+                                             + "Class: %s. MCP tool names must be unique. " //
+                                             + "Please provide a unique 'name' attribute in the @McpTool annotation " //
+                                             + "or rename the conflicting method.", toolName, clazz.getName());
                 throw new IllegalStateException(error);
             }
 
